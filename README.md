@@ -8,7 +8,7 @@ Heavily inspired by [vueTorrent](https://github.com/WDaan/VueTorrent)
 
 ## Run with Docker (All-in-One image)
 ```sh
-docker run -p 80:80 -p 4444:4444 -v YOUR_DIR:/usr/src/yt-dlp-rpc/downloads yt-dlp-vue
+docker run -p 80:80 -p 4444:4444 -v YOUR_DIR:/usr/src/yt-dlp-rpc/downloads ghcr.io/marcopeocchi/yt-dlp-vue:main
 ```
 
 ## Project Setup
