@@ -11,8 +11,12 @@
       <div class="px-3 py-3 grid md grid-cols-2 md:grid-cols-2 lg:grid-cols-5">
         <div>
           <p class="text-xs text-slate-400 pb-2">Progress</p>
-          <div class="w-3/4 bg-gray-200 dark:bg-gray-800 rounded h-3">
-            <div class="bg-emerald-500 h-3 rounded" :style="`width: ${props.result.progress.percentage}`"></div>
+          <div class="w-3/4 bg-gray-200 dark:bg-gray-800 rounded h-3.5 text-center font-semibold">
+            <div class="bg-emerald-500 h-3.5 rounded text-xs text-gray-200"
+              :style="`width: ${props.result.progress.percentage}`"
+              :class="isCompleted(props.result.progress.percentage) ? 'bg-purple-400' : 'bg-emerald-500'">
+              {{ isCompleted(props.result.progress.percentage) ? 'Done' : props.result.progress.percentage }}
+            </div>
           </div>
         </div>
         <div>
@@ -26,10 +30,10 @@
         </div>
         <div>
           <p class="text-xs text-slate-400">Actions</p>
-          <button
-            class="text-md bg-slate-200 text-slate-500 dark:bg-emerald-600 dark:text-slate-100 text-xs p-1 rounded"
+          <button class="text-md bg-slate-200 text-slate-500 dark:text-slate-100 text-xs p-1 rounded"
+            :class="isCompleted(props.result.progress.percentage) ? 'dark:bg-purple-400' : 'dark:bg-emerald-500'"
             @click="onStop(result.id)">
-            Stop
+            {{ isCompleted(props.result.progress.percentage) ? 'Clear' : 'Stop' }}
           </button>
         </div>
       </div>
@@ -58,5 +62,9 @@ function formatETA(seconds: number) {
   const mins = ~~((seconds % 3600) / 60)
   const secs = ~~seconds % 60;
   return `${hrs > 9 ? hrs : `0${hrs}`}:${mins > 9 ? mins : `0${mins}`}:${secs > 9 ? secs : `0${secs}`}`
+}
+
+function isCompleted(progress: string) {
+  return progress === '-1'
 }
 </script>
