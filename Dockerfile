@@ -13,6 +13,7 @@ RUN rm -rf node_modules
 
 RUN mkdir -p /var/www
 RUN cp -r ./dist /var/www
+RUN chmod +x ./container-start.sh
 
 EXPOSE 80
 EXPOSE 4444
