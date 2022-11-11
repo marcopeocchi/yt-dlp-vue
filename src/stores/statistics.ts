@@ -31,7 +31,7 @@ export const useStatisticsStore = defineStore('statistics', () => {
     }
   })
   const isConnected = computed(() => statistics.value.connected)
-  const getFreeSpace = computed(() => statistics.value.freeSpace / 1000 / 1000 / 1000)
+  const getFreeSpace = computed(() => statistics.value.freeSpace / 1024 / 1024 / 1024)
 
   function setDownloadSpeed(speed: number) {
     statistics.value.downloadSpeed = speed
