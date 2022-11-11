@@ -31,4 +31,9 @@ export type Params = {
   Params?: string
 }
 
-export type Services = "Service.Exec" | "Service.Kill" | "Service.Running" | "Service.KillAll"
+export type Services =
+  | "Service.Exec"
+  | "Service.Kill"
+  | "Service.Running"
+  | "Service.KillAll"
+  | "Service.FreeSpace"

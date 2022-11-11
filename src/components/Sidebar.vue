@@ -23,6 +23,12 @@
             @keyup="(e: any) => settings.setRPCPort(e.target.value)" />
         </div>
       </div>
+      <div class="p-3 bg-slate-600 rounded text-slate-300 text-center mt-3 mx-3">
+        Free space (GiB)
+        <div class="text-sky-500 text-xl font-mono mt-1 font-semibold">
+          <span>{{ freeSpace.toFixed(2) }}</span>
+        </div>
+      </div>
     </div>
     <div class="grid grid-cols-2 gap-3">
       <div class="p-3 bg-slate-600 rounded text-slate-300 text-center ml-3">
@@ -54,6 +60,7 @@ export default {
     const statistics = useStatisticsStore();
     return {
       connected: computed(() => statistics.isConnected),
+      freeSpace: computed(() => statistics.getFreeSpace),
       address: computed(() => settings.getRPCAddress),
       speed: computed(() => statistics.getDownloadSpeed),
       port: computed(() => settings.getRPCPort),

@@ -6,6 +6,7 @@ interface IStatistics {
   downloadSpeed: number
   timeSeries: number[]
   connected: boolean
+  freeSpace: number
 }
 
 export const useStatisticsStore = defineStore('statistics', () => {
@@ -13,6 +14,7 @@ export const useStatisticsStore = defineStore('statistics', () => {
     downloadSpeed: 0,
     timeSeries: new Array<number>(SAMPLE_SIZE).fill(0),
     connected: false,
+    freeSpace: 0,
   })
 
   const getDownloadSpeed = computed(() => statistics.value.downloadSpeed / 1000 / 1000)
@@ -29,6 +31,7 @@ export const useStatisticsStore = defineStore('statistics', () => {
     }
   })
   const isConnected = computed(() => statistics.value.connected)
+  const getFreeSpace = computed(() => statistics.value.freeSpace / 1000 / 1000 / 1000)
 
   function setDownloadSpeed(speed: number) {
     statistics.value.downloadSpeed = speed
@@ -46,6 +49,10 @@ export const useStatisticsStore = defineStore('statistics', () => {
     statistics.value.timeSeries = [...statistics.value.timeSeries, value]
   }
 
+  function setFreeSpace(value: number) {
+    statistics.value.freeSpace = value
+  }
+
   return {
     getDownloadSpeed,
     setDownloadSpeed,
@@ -53,6 +60,8 @@ export const useStatisticsStore = defineStore('statistics', () => {
     setConnected,
     getTimeSeries,
     pushToTimeSeries,
+    getFreeSpace,
+    setFreeSpace,
     statistics,
   }
 })
