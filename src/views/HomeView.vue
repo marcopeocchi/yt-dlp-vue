@@ -3,5 +3,7 @@ import Home from '../components/Home.vue'
 </script>
 
 <template>
-  <Home />
+  <div class="overflow-y-scroll h-screen">
+    <Home />
+  </div>
 </template>

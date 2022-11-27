@@ -77,16 +77,16 @@ export default {
         labels: new Array<string>(SAMPLE_SIZE).fill(''),
         datasets: [
           {
-            borderColor: '#ffffff',
-            backgroundColor: '#f87979',
-            data: new Array(SAMPLE_SIZE).fill(0)
+            borderColor: '#a7f3d0',
+            backgroundColor: '#10b981',
+            data: new Array(SAMPLE_SIZE).fill(0),
+            fill: true,
           }
         ]
       },
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false,
-        color: '#ffffff',
         scales: {
           x: {
             grid: {

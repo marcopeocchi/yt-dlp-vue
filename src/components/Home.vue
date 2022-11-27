@@ -4,32 +4,30 @@
       yt-dlp Vue
     </div>
     <div class="absolute top-5 right-5">
-      <div class="grid grid-cols-1 gap-x-4">
+      <div class="grid grid-cols-3 gap-x-4">
+        <button @click="toggleModalView"
+          class="bg-slate-300 hover:bg-slate-400 duration-100 p-2 rounded text-xs font-bold text-slate-500 hover:text-slate-200 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
+          Add new
+        </button>
         <button @click="stopAllDownloads"
           class="bg-slate-300 hover:bg-slate-400 duration-100 p-2 rounded text-xs font-bold text-slate-500 hover:text-slate-200 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
           Abort All
         </button>
+        <RouterLink to="/settings">
+          <button @click="stopAllDownloads"
+            class="bg-slate-300 hover:bg-slate-400 duration-100 p-2 rounded text-xs font-bold text-slate-500 hover:text-slate-200 dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
+            Settings
+          </button>
+        </RouterLink>
       </div>
     </div>
   </div>
-  <header class="mt-24 px-6">
-    <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div class="relative">
-        <input type="text" v-model="url"
-          class="block p-4 w-full text-sm text-slate-800 bg-slate-50 dark:bg-gray-700 dark:text-gray-200 rounded focus:ring-emerald-500 focus:border-emerald-500"
-          placeholder="Video URL" required>
-        <button type="submit" @click="addDownload"
-          class="text-white absolute h-full right-0 bottom-0 bg-emerald-500 hover:bg-emerald-600 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-r text-sm px-2">
-          Download
-        </button>
-      </div>
-      <input type="text" v-model="getDefaultArgs" @keyup="(e: any) => settings.setDefaultArgs(e.target.value)"
-        class="block p-4 w-full text-sm text-slate-800 bg-slate-50 dark:bg-gray-700 dark:text-gray-200 rounded focus:ring-emerald-500 focus:border-emerald-500"
-        placeholder="yt-dlp CLI Arguments">
-    </form>
-  </header>
-  <main class="p-6">
+  <main class="p-6 mt-20">
     <DownloadEntry v-for="result in results" :result="result" :on-stop="stopDownload" />
+    <DownloadModal :hidden="!showDownloadModal" :on-confirm="(url: string) => {
+      addDownload(url)
+      toggleModalView()
+    }" :on-cancel="toggleModalView"></DownloadModal>
   </main>
 </template>
 
@@ -39,21 +37,20 @@ import { useStatisticsStore } from '../stores/statistics'
 import { useSettingsStore } from '../stores/settings'
 import { RPC_ADDR } from '../variables'
 import DownloadEntry from './Entry.vue'
+import DownloadModal from './DownloadModal.vue'
+import { MOCK_RESULT } from '@/fixtures/dl'
+import { RouterLink } from 'vue-router'
 
 export default {
   setup() {
     const statistics = useStatisticsStore()
     const settings = useSettingsStore()
 
-    // broke reactivity intentionally
-    const { getDefaultArgs } = settings
-
     return {
-      setSpeed: statistics.setDownloadSpeed,
       setConnected: statistics.setConnected,
       setFreeSpace: statistics.setFreeSpace,
+      pushToTimeSeries: statistics.pushToTimeSeries,
       settings,
-      getDefaultArgs,
     }
   },
   data() {
@@ -62,6 +59,7 @@ export default {
       results: [] as Result[],
       socket: new WebSocket(RPC_ADDR),
       loading: true,
+      showDownloadModal: false,
     }
   },
   created() {
@@ -84,13 +82,15 @@ export default {
           this.setFreeSpace(data.result)
           break
         case 'object':
-          this.results = data.result
+          this.results = (import.meta.env.DEV ? MOCK_RESULT.result : data.result) // MOCK when in dev
             .filter((r: Result) => !!r.info.url)
             .sort((a: Result, b: Result) => a.info.title.localeCompare(b.info.title))
-          this.setSpeed(this.results
+          this.pushToTimeSeries(this.results
             .map(r => r.progress.speed)
             .reduce((c, n) => c + n, 0)
           )
+          break
+        default:
           break
       }
     }
@@ -100,15 +100,15 @@ export default {
     }, 1000)
   },
   methods: {
-    addDownload() {
+    addDownload(url: string = "") {
       const request: JsonRpcRequest = {
         method: "Service.Exec",
         params: [{
-          URL: this.url.split("?list")[0],
+          URL: url || this.url.split("?list")[0],
           Params: this.settings.getDefaultArgs.split(" ").map(a => a.trim()),
         }]
       }
-      if (this.url) {
+      if (url || this.url) {
         this.socket.send(JSON.stringify(request))
       }
     },
@@ -132,8 +132,11 @@ export default {
         params: []
       }
       this.socket.send(JSON.stringify(request))
+    },
+    toggleModalView() {
+      this.showDownloadModal = !this.showDownloadModal
     }
   },
-  components: { DownloadEntry }
+  components: { DownloadEntry, DownloadModal, RouterLink }
 }
 </script>

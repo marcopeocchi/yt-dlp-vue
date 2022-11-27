@@ -1,5 +1,5 @@
 <template>
-  <aside class="flex flex-col flex-grow justify-between min-h-full py-3">
+  <aside class="flex flex-col flex-grow justify-between py-3" style="height: 100vh;">
     <div>
       <div class="p-3 bg-slate-600 rounded text-slate-300 text-center mx-3">
         Download Speed
@@ -8,7 +8,7 @@
           <span class="text-sm"> MBps</span>
         </div>
       </div>
-      <SpeedChart class="p-0"></SpeedChart>
+      <SpeedChart class="p-0 mt-3"></SpeedChart>
       <div class="p-3 bg-slate-600 rounded text-slate-300 text-center mt-3 mx-3">
         RPC Address
         <div class="text-emerald-500 text-lg font-mono mt-1 font-semibold">
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="grid grid-cols-2 gap-3">
+    <div class="grid grid-cols-2 gap-3 mt-3">
       <div class="p-3 bg-slate-600 rounded text-slate-300 text-center ml-3">
         Status
         <div class="mt-1 font-semibold" :class="connected ? 'text-emerald-500' : 'text-red-500'">

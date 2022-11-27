@@ -23,9 +23,10 @@ export const useStatisticsStore = defineStore('statistics', () => {
       labels: new Array<string>(SAMPLE_SIZE).fill(''),
       datasets: [
         {
+          fill: true,
           borderColor: '#a7f3d0',
           backgroundColor: '#10b981',
-          data: statistics.value.timeSeries
+          data: statistics.value.timeSeries,
         }
       ]
     }
@@ -33,7 +34,7 @@ export const useStatisticsStore = defineStore('statistics', () => {
   const isConnected = computed(() => statistics.value.connected)
   const getFreeSpace = computed(() => statistics.value.freeSpace / 1024 / 1024 / 1024)
 
-  function setDownloadSpeed(speed: number) {
+  function pushToTimeSeries(speed: number) {
     statistics.value.downloadSpeed = speed
     statistics.value.timeSeries = [
       ...statistics.value.timeSeries,
@@ -45,17 +46,12 @@ export const useStatisticsStore = defineStore('statistics', () => {
     statistics.value.connected = connected
   }
 
-  function pushToTimeSeries(value: number) {
-    statistics.value.timeSeries = [...statistics.value.timeSeries, value]
-  }
-
   function setFreeSpace(value: number) {
     statistics.value.freeSpace = value
   }
 
   return {
     getDownloadSpeed,
-    setDownloadSpeed,
     isConnected,
     setConnected,
     getTimeSeries,
