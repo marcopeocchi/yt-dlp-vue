@@ -29,6 +29,10 @@
           <p class="text-md">{{ formatETA(props.result.progress.eta) ?? '-' }}</p>
         </div>
         <div>
+          <p class="text-xs text-slate-400">Size</p>
+          <p class="text-md">{{ formatFilesize(props.result.info.filesize_approx ?? 0) }}</p>
+        </div>
+        <div>
           <p class="text-xs text-slate-400">Actions</p>
           <button class="text-md bg-slate-200 text-slate-500 dark:text-slate-100 text-xs p-1 rounded"
             :class="isCompleted(props.result.progress.percentage) ? 'dark:bg-purple-400' : 'dark:bg-emerald-500'"
@@ -62,6 +66,16 @@ function formatETA(seconds: number) {
   const mins = ~~((seconds % 3600) / 60)
   const secs = ~~seconds % 60;
   return `${hrs > 9 ? hrs : `0${hrs}`}:${mins > 9 ? mins : `0${mins}`}:${secs > 9 ? secs : `0${secs}`}`
+}
+
+function formatFilesize(size: number): string {
+  if (size == 0) {
+    return '-'
+  }
+  if (size >= 1000000000) {
+    return `${(size / 1000 / 1000 / 1000).toFixed(1)} GB` //GBs
+  }
+  return `${(size / 1000 / 1000).toFixed(1)} MB` // MBs
 }
 
 function isCompleted(progress: string) {

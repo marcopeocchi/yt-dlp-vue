@@ -19,10 +19,13 @@ export type Result = {
   }
   info: {
     url: string
-    size?: string
+    filesize_approx?: number
     resolution?: string
     thumbnail: string
     title: string
+    vcodec?: string
+    acodec?: string
+    ext?: string
   }
 }
 

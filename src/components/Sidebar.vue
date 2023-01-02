@@ -1,5 +1,5 @@
 <template>
-  <aside class="flex flex-col flex-grow justify-between py-3" style="height: 100vh;">
+  <aside class="flex flex-col flex-grow justify-between py-3 min-h-screen">
     <div>
       <div class="p-3 bg-slate-600 rounded text-slate-300 text-center mx-3">
         Download Speed
@@ -16,14 +16,14 @@
             @keyup="(e: any) => settings.setRPCAddress(e.target.value)" />
         </div>
       </div>
-      <div class="p-3 bg-slate-600 rounded text-slate-300 text-center mt-3 mx-3">
+      <div class="p-3 bg-slate-600 rounded text-slate-300 text-center mt-2 mx-3">
         RPC Port
         <div class="text-emerald-500 text-lg font-mono mt-1 font-semibold">
           <input type="text" class="text-center appearance-none bg-slate-600" :value="port"
             @keyup="(e: any) => settings.setRPCPort(e.target.value)" />
         </div>
       </div>
-      <div class="p-3 bg-slate-600 rounded text-slate-300 text-center mt-3 mx-3">
+      <div class="p-3 bg-slate-600 rounded text-slate-300 text-center mt-2 mx-3">
         Free space (GiB)
         <div class="text-sky-500 text-xl font-mono mt-1 font-semibold">
           <span>{{ freeSpace.toFixed(2) }}</span>

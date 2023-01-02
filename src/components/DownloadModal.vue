@@ -1,7 +1,7 @@
 <template>
   <div :class="props.hidden ? 'hidden' : 'block'"
     class="bg-gray-800 bg-opacity-50 flex justify-center items-center fixed top-0 right-0 bottom-0 left-0">
-    <div class="bg-slate-100 dark:bg-gray-800 border dark:border-gray-700 p-8 rounded-md text-center w-1/2">
+    <div class="bg-slate-100 dark:bg-gray-800 border dark:border-gray-700 p-6 rounded-md text-center w-1/2">
       <h1 class="text-2xl mb-4 font-semibold text-gray-700 dark:text-gray-100">Add download</h1>
       <div class="mb-4">
         <div class="text-start text-lg text-gray-600 dark:text-gray-200">

@@ -22,24 +22,24 @@
       </div>
     </div>
   </div>
-  <main class="p-6 mt-20">
+  <main class="p-6 mt-16">
     <DownloadEntry v-for="result in results" :result="result" :on-stop="stopDownload" />
     <DownloadModal :hidden="!showDownloadModal" :on-confirm="(url: string) => {
       addDownload(url)
       toggleModalView()
-    }" :on-cancel="toggleModalView"></DownloadModal>
+    }" :on-cancel="toggleModalView" />
   </main>
 </template>
 
 <script lang="ts">
-import type { JsonRpcRequest, JsonRpcResponse, Result } from '../types'
-import { useStatisticsStore } from '../stores/statistics'
-import { useSettingsStore } from '../stores/settings'
-import { RPC_ADDR } from '../variables'
-import DownloadEntry from './Entry.vue'
-import DownloadModal from './DownloadModal.vue'
 import { MOCK_RESULT } from '@/fixtures/dl'
 import { RouterLink } from 'vue-router'
+import { useSettingsStore } from '../stores/settings'
+import { useStatisticsStore } from '../stores/statistics'
+import type { JsonRpcRequest, JsonRpcResponse, Result } from '../types'
+import { RPC_ADDR } from '../variables'
+import DownloadModal from './DownloadModal.vue'
+import DownloadEntry from './Entry.vue'
 
 export default {
   setup() {

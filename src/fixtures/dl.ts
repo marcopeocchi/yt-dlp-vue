@@ -10,7 +10,9 @@ export const MOCK_RESULT: JsonRpcResponse<Array<Result>> = {
         title: `[페이스캠4K] 에스파 윈터 'Savage' (aespa WINTER FaceCam)│@SBS Inkigayo_2021.10.24.`,
         url: '...',
         resolution: '3840x2160',
-        size: '342423424'
+        filesize_approx: 3424234240,
+        acodec: 'opus',
+        vcodec: 'webm',
       },
       progress: {
         eta: 900,
